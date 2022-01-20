@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfCoreScaffolding", "EfCoreScaffolding\EfCoreScaffolding.csproj", "{CA71D5DE-E647-4161-BFA3-A0C4FD263027}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA71D5DE-E647-4161-BFA3-A0C4FD263027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA71D5DE-E647-4161-BFA3-A0C4FD263027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA71D5DE-E647-4161-BFA3-A0C4FD263027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA71D5DE-E647-4161-BFA3-A0C4FD263027}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3A2D12C-804B-4933-9440-130180A06A9E}
+	EndGlobalSection
+EndGlobal
