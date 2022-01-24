@@ -1,0 +1,30 @@
+﻿@model List<Mvc_CRUD.Models.Product>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Products List</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Actions</th>
+    </tr>
+    @foreach(var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", "Products", new { id = product.Id })
+                        @Html.ActionLink("Edit Product", "Edit", "Products", new { id = product.Id })
+
+                        @Html.ActionLink("Remove", "Delete", "Products", new { id = product.Id })
+
+                    </td>
+                </tr>
+            }
+</table>
+
