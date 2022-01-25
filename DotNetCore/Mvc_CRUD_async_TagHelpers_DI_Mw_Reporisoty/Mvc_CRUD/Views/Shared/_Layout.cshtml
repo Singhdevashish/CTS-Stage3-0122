@@ -1,0 +1,26 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <h1>Products App</h1>
+    <div class="menu">
+        @*@Html.ActionLink("List", "Index", "Products")*@
+        @Html.ActionLink("Add New", "Create", "Products")
+
+        <a asp-controller="Products" asp-action="Index">List</a>
+
+    </div>
+    <div>
+        @RenderBody()
+    </div>
+
+    @RenderSection("StylesAndScripts", false)
+</body>
+</html>

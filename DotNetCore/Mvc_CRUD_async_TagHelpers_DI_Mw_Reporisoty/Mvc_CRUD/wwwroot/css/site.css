@@ -1,0 +1,18 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+.menu {
+    width: 100%;
+    border: 1px solid black;
+}
+
+    .menu a {
+        padding: 10px 50px;
+    }
+
+        .menu a:hover {
+            background: #808080;
+            color: #ffffff;
+        }
