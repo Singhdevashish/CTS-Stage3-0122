@@ -1,0 +1,62 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+@*@using (Html.BeginForm())
+    {
+
+        @Html.LabelFor(Model => Model.Name)
+        <br />
+        @Html.EditorFor(Model => Model.Name)
+        <br />
+        @Html.ValidationMessageFor(Model => Model.Name)
+        <br />
+
+        @Html.LabelFor(Model => Model.Price)
+        <br />
+        @Html.EditorFor(Model => Model.Price)
+        <br />
+        @Html.ValidationMessageFor(Model => Model.Price)
+        <br />
+
+        <input type="submit" value="Create"/>
+
+    }*@
+
+
+<form asp-controller="Products" asp-action="Create" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All"></div>
+
+    <label asp-for="Name"></label>
+    <br />
+    <input asp-for="Name" />
+    <br />
+    <span asp-validation-for="Name"></span>
+    <br />
+
+
+    <label asp-for="Price"></label>
+    <br />
+    <input asp-for="Price" />
+    <br />
+    <span asp-validation-for="Price"></span>
+    <br />
+
+    <input type="submit" value="Create" />
+
+</form>
+
+
+
+@section StylesAndScripts{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+} 

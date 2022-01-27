@@ -1,0 +1,38 @@
+@model Product
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit Product</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(Model=>Model.Id)
+
+    @Html.LabelFor(Model => Model.Name)
+    <br />
+    @Html.EditorFor(Model => Model.Name)
+    <br />
+    @Html.ValidationMessageFor(Model => Model.Name)
+    <br />
+
+    @Html.LabelFor(Model => Model.Price)
+    <br />
+    @Html.EditorFor(Model => Model.Price)
+    <br />
+    @Html.ValidationMessageFor(Model => Model.Price)
+    <br />
+
+    <input type="submit" value="Update" />
+
+}
+
+
+@section StylesAndScripts{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+} 
