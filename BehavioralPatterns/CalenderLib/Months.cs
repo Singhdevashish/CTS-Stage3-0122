@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CalenderLib
 {
 
-    public class Months
+    public class Months : IEnumerable<Month>
     {
         Month[] months;
         public Months()
@@ -23,8 +25,81 @@ namespace CalenderLib
             months[11] = new Month { Name = "December", No = 12 };
         }
 
-       
+        public Month this[int index]
+        {
+            get
+            {
+                return months[index];
+            }
+        }
+        public int Count
+        {
+            get
+            {
+                return months.Length;
+            }
+        }
 
-        
+        public IEnumerator<Month> GetEnumerator()
+        {
+            foreach (var month in months)
+                yield return month;
+        }
+
+        public IMonthsIterator GetIterator()
+        {
+            return new MonthsIterator(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (var month in months)
+                yield return month;
+        }
+    }
+
+    public interface IMonthsIterator
+    {
+        Month First();
+        void Next();
+        bool IsDone();
+        Month Current { get; }
+        void Reset();
+    }
+    public class MonthsIterator : IMonthsIterator
+    {
+        Months months;
+        private int currentPosition;
+        public MonthsIterator(Months months)
+        {
+            this.months = months;
+            currentPosition = 0;
+        }
+
+        public Month Current
+        {
+            get { return months[currentPosition]; }
+        }
+
+        public Month First()
+        {
+            currentPosition = 0;
+            return Current;
+        }
+
+        public bool IsDone()
+        {
+            return currentPosition < months.Count - 1;
+        }
+
+        public void Next()
+        {
+            currentPosition += 1;
+        }
+
+        public void Reset()
+        {
+            currentPosition = 0;
+        }
     }
 }

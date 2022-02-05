@@ -7,22 +7,26 @@ namespace OrderLibraryClient
     {
         static void Main(string[] args)
         {
-            var order = new Order
+            var policy1 = new ExpressShipping();
+            var order = new Order(policy1)
             {
                 CustomerName = "Jojo",
                 OrderId = 101,
                 ProductName = "Markers",
                 Quantity = 10,
                 UnitPrice = 50,
-                ShippingAddress = "Hyderabad"
+                ShippingAddress = "Hyderabad",
+                ShippingPolicy = "Express"
             };
+
+           
             order.CalculateOrderAmount();
             Console.WriteLine("Order amount : {0}", order.OrderAmount);
 
             order.CalculateAmountPayable();
             Console.WriteLine("Total amount payable : {0}", order.TotalOrderAmount);
 
-            order.Confirm();
+            order.Confirm(new RegularShipping());
         }
     }
 }

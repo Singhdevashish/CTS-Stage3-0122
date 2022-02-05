@@ -9,22 +9,21 @@ namespace FlightTicketLib
         public DateTime JourneyDate { get; set; }
         public DateTime BookingDate { get; set; }
         public string Status { get; set; }
-
+        private TicketStates currentState;
         public FlightTicket(DateTime journeyDate, string flightNo)
         {
             this.JourneyDate = journeyDate;
             this.FlightNo = flightNo;
+            ChangeState(new TicketAvailable());
         }
         public void Book(string passengerName)
         {
-            this.PassengerName = passengerName;
-            this.BookingDate = DateTime.Today;
-            this.Status = "Booked";
+            currentState.Book(passengerName);          
         }
         public void Cancel()
         {
-            this.Status = "Available";
-            this.PassengerName = string.Empty;
+            currentState.Cancel();
+          
         }
         public void Print()
         {
@@ -34,6 +33,59 @@ namespace FlightTicketLib
             Console.WriteLine("Booking : {0}", BookingDate);
             Console.WriteLine("Status : {0}", Status);
 
+        }
+        public void ChangeState(TicketStates state)
+        {
+            currentState = state;
+            currentState.SetContext(this);
+        }
+    }
+
+    public interface TicketStates
+    {
+        void Book(string passengerName);
+        void Cancel();
+        void SetContext(FlightTicket ticket);
+    }
+    public class TicketAvailable : TicketStates
+    {
+        private FlightTicket ticket;
+        public void Book(string passengerName)
+        {
+            ticket.PassengerName = passengerName;
+            ticket.BookingDate = DateTime.Today;
+            ticket.ChangeState(new TicketBooked());
+        }
+
+        public void Cancel()
+        {
+            Console.WriteLine("Unreserved ticket cannot be cancelled");
+        }
+
+        public void SetContext(FlightTicket ticket)
+        {
+            this.ticket = ticket;
+        }
+    }
+
+    public class TicketBooked : TicketStates
+    {
+        private FlightTicket ticket;
+        public void Book(string passengerName)
+        {
+            Console.WriteLine("Ticket is already reserved for {0}", ticket.PassengerName);
+        }
+
+        public void Cancel()
+        {
+            ticket.PassengerName = string.Empty;
+            ticket.BookingDate = DateTime.MinValue;
+            ticket.ChangeState(new TicketAvailable());
+        }
+
+        public void SetContext(FlightTicket ticket)
+        {
+            this.ticket = ticket;
         }
     }
 }
