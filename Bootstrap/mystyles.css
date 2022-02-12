@@ -1,0 +1,12 @@
+.btn-primary,  .bg-primary {
+    background-color: rgb(248, 132, 0);
+}
+.text-primary{
+    color:  rgb(248, 132, 0) !important;
+}
+.btn-primary:hover {
+    background-color: rgb(252, 164, 65);
+}
+.mt-3{
+    margin-top: 2rem !important;
+}
