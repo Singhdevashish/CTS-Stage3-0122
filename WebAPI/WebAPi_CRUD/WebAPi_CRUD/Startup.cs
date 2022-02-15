@@ -27,7 +27,8 @@ namespace WebAPi_CRUD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddCors();
+            services.AddControllers().AddXmlSerializerFormatters();
             services.AddDbContext<ADM21DF014MVCCRUDContext>(setup =>
                     setup.UseSqlServer(Configuration.GetConnectionString("constr")));
             services.AddScoped<IRepository<Products>, GenereicRepository<Products>>();
@@ -54,6 +55,11 @@ namespace WebAPi_CRUD
             }
 
             app.UseRouting();
+            app.UseCors(setup => 
+                setup.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                //setup.WithOrigins("http://abc.com", "http://google.com")
+                //     .WithMethods("GET","POST")
+                //     .WithHeaders("Accept","Content-Type"));
 
             app.UseAuthorization();
 

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParameterBinding", "ParameterBinding\ParameterBinding.csproj", "{C9E59847-ABC7-4F6F-A3FD-645219B3B381}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9E59847-ABC7-4F6F-A3FD-645219B3B381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E59847-ABC7-4F6F-A3FD-645219B3B381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E59847-ABC7-4F6F-A3FD-645219B3B381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E59847-ABC7-4F6F-A3FD-645219B3B381}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D6ACAC6-712D-4347-97FB-8C667805C240}
+	EndGlobalSection
+EndGlobal
