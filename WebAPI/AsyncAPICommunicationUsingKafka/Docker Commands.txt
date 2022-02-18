@@ -1,0 +1,5 @@
+---Start containers
+docker-compose -f kafka-docker-compose.yml up
+
+--show running containers
+docker ps

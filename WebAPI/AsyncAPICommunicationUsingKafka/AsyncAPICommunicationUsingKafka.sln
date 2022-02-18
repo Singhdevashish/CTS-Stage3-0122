@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdersAPI", "OrdersAPI\OrdersAPI.csproj", "{BFDBEC47-F9AD-4296-800F-606DD186642F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationApp", "NotificationApp\NotificationApp.csproj", "{31CFDD97-8601-4E0E-BF15-7D1FB2C38FAA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFDBEC47-F9AD-4296-800F-606DD186642F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFDBEC47-F9AD-4296-800F-606DD186642F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFDBEC47-F9AD-4296-800F-606DD186642F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFDBEC47-F9AD-4296-800F-606DD186642F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31CFDD97-8601-4E0E-BF15-7D1FB2C38FAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31CFDD97-8601-4E0E-BF15-7D1FB2C38FAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31CFDD97-8601-4E0E-BF15-7D1FB2C38FAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31CFDD97-8601-4E0E-BF15-7D1FB2C38FAA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {898BC5A2-7407-420B-A683-14655249C337}
+	EndGlobalSection
+EndGlobal
