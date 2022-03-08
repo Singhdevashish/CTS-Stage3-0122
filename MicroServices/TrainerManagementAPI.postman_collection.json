@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "77bb9cdc-30e7-4289-841f-43c7e34f8f9d",
+		"name": "TrainerManagementAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Trainers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:37713/api/trainers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "37713",
+					"path": [
+						"api",
+						"trainers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Trainer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Satya P\",\r\n    \"email\" : \"satya@cognizant.com\",\r\n    \"phoneNumber\":\"1234567891\",\r\n    \"primarySkill\":\"Salesforce\",\r\n    \"secondarySkills\":\"Salesforce functional, salesforce technical\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:37713/api/trainers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "37713",
+					"path": [
+						"api",
+						"trainers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Trainer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "content-type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Aathma M\",\r\n    \"email\" : \"aathma@cognizant.com\",\r\n    \"phoneNumber\":\"1234567890\",\r\n    \"primarySkill\":\"Oracle\",\r\n    \"secondarySkills\":\"Oralce Db admin, Oracle Db Implementation, Oracle ERP, Oracle Fusion\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:37713/api/trainers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "37713",
+					"path": [
+						"api",
+						"trainers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Trainer",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
