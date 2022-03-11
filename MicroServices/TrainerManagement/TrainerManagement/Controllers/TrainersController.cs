@@ -41,6 +41,16 @@ namespace TrainerManagement.Controllers
             return Ok(DTOs);
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(TrainerDTO))]
+        public async Task<IActionResult> Get(int id)
+        {
+            Trainer trainer = await trainersRepository.GetAsync(id);
+            
+            var DTO = mapper.Map<TrainerDTO>(trainer);
+            return Ok(DTO);
+        }
+
         [HttpPost]
         [ProducesResponseType(201, Type =typeof(TrainerDTO))]
         public async Task<IActionResult> Post(TrainerDTO model)

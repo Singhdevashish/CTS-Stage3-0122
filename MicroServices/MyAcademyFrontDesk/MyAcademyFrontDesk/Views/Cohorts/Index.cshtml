@@ -1,0 +1,60 @@
+﻿@model IEnumerable<MyAcademyFrontDesk.Models.CohortDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                
+                @Html.DisplayNameFor(model => model.CohortCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TechnologyStack)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Coach)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateOn)
+            </th>
+            
+           
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                <a asp-controller="Cohorts" asp-action="Details" asp-route-id="@item.Id">
+                    @Html.DisplayFor(modelItem => item.CohortCode)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TechnologyStack)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Coach)
+            </td>
+            <td>
+                @item.CreateOn.ToShortDateString()
+            </td>
+           
+           
+        </tr>
+}
+    </tbody>
+</table>

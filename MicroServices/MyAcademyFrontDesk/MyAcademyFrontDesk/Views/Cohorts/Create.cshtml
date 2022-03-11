@@ -1,0 +1,97 @@
+﻿@model MyAcademyFrontDesk.Models.CohortDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="CohortCode" class="control-label"></label>
+                <input asp-for="CohortCode" class="form-control" />
+                <span asp-validation-for="CohortCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TechnologyStack" class="control-label"></label>
+                <select asp-for="TechnologyStack" class="form-control" asp-items="@ViewBag.Technologies">
+                </select>
+                <span asp-validation-for="TechnologyStack" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Coach" class="control-label"></label>
+                <input asp-for="Coach" class="form-control" />
+                <span asp-validation-for="Coach" class="text-danger"></span>
+            </div>
+
+
+            
+
+
+            <div class="form-group">
+                <input type="submit" value="Save Cohort" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <h3>Trainees</h3>
+</div>
+<div>
+    <div class="row">
+        <div class="col">
+            <input type="number" id="traineeId" class="form-control" placeholder="Trainee Id">
+        </div>
+        <div class="col">
+            <input type="text" id="traineeName" class="form-control" placeholder="Trainee Name">
+        </div>
+        <div class="col">
+            <input type="email" id="traineeEmail" class="form-control" placeholder="Trainee email">
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-secondary" id="btnAddTrainee">Add Trainee</button>
+        </div>
+        <div class="col-12" id="output">
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#btnAddTrainee').click(function (e) {
+            e.preventDefault();
+
+            let traineeId = $('#traineeId');
+            let traineeName = $('#traineeName');
+            let traineeEmail = $('#traineeEmail');
+
+            let traineeObj = { "Id": traineeId.val(), "Name": traineeName.val(), "Email": traineeEmail.val() };
+
+            $.post('/cohorts/AddTrainee', traineeObj, function (data) {
+                $('#output').html(data);
+                traineeId.val('');
+                traineeName.val('');
+                traineeEmail.val('');
+
+                console.log(data);
+            });
+        })
+
+    });
+
+</script>
+}

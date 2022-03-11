@@ -11,6 +11,7 @@ namespace TrainerManagement.Domain
         T Update(T item);
         T Delete(T item);
         Task<IReadOnlyCollection<T>> GetAsync();
+        Task<T> GetAsync(int id);
         Task<int> SaveAsync();
     }
 }

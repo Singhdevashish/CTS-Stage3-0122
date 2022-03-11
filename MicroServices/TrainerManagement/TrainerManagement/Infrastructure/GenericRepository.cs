@@ -41,6 +41,9 @@ namespace TrainerManagement.Infrastructure
             return await context.SaveChangesAsync();
         }
 
-       
+        public async Task<T> GetAsync(int id)
+        {
+            return await context.Set<T>().FindAsync(id);
+        }
     }
 }
