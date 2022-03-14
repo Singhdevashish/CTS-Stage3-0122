@@ -1,7 +1,9 @@
 using CohortManagement.Core;
 using CohortManagement.Core.Interfaces;
+using CohortManagement.Core.Services;
 using CohortManagement.Infrastructure.Data;
 using CohortManagement.Infrastructure.Repositories;
+using CohortManagement.Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
+using CohortManagement.Core.Events;
+using CohortManagement.Core.Settings;
 
 namespace CohortManagement.Api
 {
@@ -40,6 +45,9 @@ namespace CohortManagement.Api
                 Title="Cohort Management API",
                 Description="Cohort management service for CTS Academy"
             }));
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddMediatR(typeof(BaseEvent));
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

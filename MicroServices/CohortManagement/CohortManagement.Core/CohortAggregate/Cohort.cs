@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using CohortManagement.Core.Services;
+using CohortManagement.Core.Events;
+
 namespace CohortManagement.Core
 {
     public class Cohort : BaseEntity, IAggregateRoot
@@ -12,7 +15,7 @@ namespace CohortManagement.Core
         public virtual string TechnologyStack { get; private set; }
         public virtual string Coach { get; private set; }
         public virtual DateTime CreateOn { get; private set; }
-
+       
         public Cohort(string cohortCode, string technologyStack, string coach)
         {
             //validation of details
@@ -22,6 +25,7 @@ namespace CohortManagement.Core
             this.CreateOn = DateTime.Now;
             Trainees = new List<Trainee>();
             TraineeCount = Trainees.Count();
+            
         }
 
         
@@ -39,6 +43,9 @@ namespace CohortManagement.Core
                 throw new InvalidOperationException("Trainee already present");
 
             Trainees.Add(trainee);
+            
+            var Event = new TraineeAddedEvent(trainee.Name, trainee.Email, this.CohortCode, this.Coach, this.TechnologyStack);
+            DomainEvents.Add(Event);
         }
         public void RemoveTrainee(long traineeId)
         {

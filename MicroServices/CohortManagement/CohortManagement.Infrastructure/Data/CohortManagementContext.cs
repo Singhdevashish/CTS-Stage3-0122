@@ -3,13 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using System.Linq;
 
 namespace CohortManagement.Infrastructure.Data
 {
     public class CohortManagementContext : DbContext
     {
-        public CohortManagementContext(DbContextOptions<CohortManagementContext> options) : base(options)
+        private readonly IMediator mediator;
+        public CohortManagementContext(DbContextOptions<CohortManagementContext> options, IMediator mediator) : base(options)
         {
+            this.mediator = mediator;
         }
 
         public DbSet<Trainee> Trainees { get; set; }
@@ -21,5 +27,21 @@ namespace CohortManagement.Infrastructure.Data
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CohortManagementContext).Assembly);
         }
+
+        public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            int Rows = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+            var EntitiesWithEvents = ChangeTracker.Entries().Select(e => e.Entity as BaseEntity).ToArray();
+            foreach (var entity in EntitiesWithEvents)
+            {
+                var events = entity.DomainEvents;
+                foreach (var ev in events)
+                    await mediator.Publish(ev).ConfigureAwait(false);
+                entity.DomainEvents.Clear();
+            }
+            return Rows;
+        }
+
     }
 }

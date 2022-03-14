@@ -1,14 +1,11 @@
-﻿using CohortManagement.Core.Events;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CohortManagement.Core
+namespace SessionManagement.Core.Entitites
 {
-    public abstract class BaseEntity 
+    public abstract class BaseEntity
     {
-        public List<BaseEvent> DomainEvents = new List<BaseEvent>();
         public long Id { get; set; }
 
         public override bool Equals(object obj)
