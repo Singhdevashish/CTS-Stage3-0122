@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Messaging.ServiceBus;
 using CohortManagement.Api.DTOs;
 using CohortManagement.Core;
 using CohortManagement.Core.CohortAggregate.Specifications;
@@ -6,9 +7,11 @@ using CohortManagement.Core.Interfaces;
 using CohortManagement.Core.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CohortManagement.Api.Controllers
@@ -19,10 +22,12 @@ namespace CohortManagement.Api.Controllers
     {
         private readonly IRepository<Cohort> cohortRepository;
         private readonly IMapper mapper;
-        public CohortController(IRepository<Cohort> cohortRepository, IMapper mapper)
+        private readonly IConfiguration configuration;
+        public CohortController(IRepository<Cohort> cohortRepository, IMapper mapper, IConfiguration configuration)
         {
             this.cohortRepository = cohortRepository;
             this.mapper = mapper;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -56,6 +61,17 @@ namespace CohortManagement.Api.Controllers
 
             cohort= cohortRepository.Add(cohort);
             await cohortRepository.SaveAsync();
+
+            var PayLoad = new { Id = cohort.Id, CohortCode = cohort.CohortCode };
+            var servicebusconnection = configuration["ServiceBusSettings:ConnectionString"];
+            var queue = configuration["ServiceBusSettings:Cohort_Q"];
+
+            var client = new ServiceBusClient(servicebusconnection);
+            var sender = client.CreateSender(queue);
+            var json = JsonSerializer.Serialize(PayLoad);
+            var message = new ServiceBusMessage(json);
+            await sender.SendMessageAsync(message);
+
             var dto = mapper.Map<CohortDTO>(cohort);
             return StatusCode(201, dto);
         }

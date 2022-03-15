@@ -27,11 +27,14 @@ namespace MyAcademyFrontDesk
 
             var api1url = Configuration["ApiAddresses:TrainerServiceAPI"];
             var api2url = Configuration["ApiAddresses:CohortServiceAPI"];
+            var api3url = Configuration["ApiAddresses:TrainingServiceAPI"];
             services.AddHttpClient("TrainerServiceAPI", setup => setup.BaseAddress = new Uri(api1url));
             services.AddHttpClient("CohortServiceAPI", setup => setup.BaseAddress = new Uri(api2url));
+            services.AddHttpClient("TrainingServiceAPI", setup => setup.BaseAddress = new Uri(api3url));
 
             services.AddSingleton(typeof(TrainerService));
             services.AddSingleton(typeof(CohortService));
+            services.AddSingleton(typeof(TrainingService));
             services.AddSession();
         }
 

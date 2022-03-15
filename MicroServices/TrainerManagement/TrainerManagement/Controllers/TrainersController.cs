@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using TrainerManagement.Domain;
 
@@ -15,10 +18,12 @@ namespace TrainerManagement.Controllers
     {
         private readonly IRepository<Trainer> trainersRepository;
         private readonly IMapper mapper;
-        public TrainersController(IRepository<Trainer> trainersRepository, IMapper mapper)
+        private readonly IConfiguration configuration;
+        public TrainersController(IRepository<Trainer> trainersRepository, IMapper mapper, IConfiguration configuration)
         {
             this.trainersRepository = trainersRepository;
             this.mapper = mapper;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -59,6 +64,16 @@ namespace TrainerManagement.Controllers
             trainersRepository.Add(trainer);
             await trainersRepository.SaveAsync();
             var dto = mapper.Map<TrainerDTO>(trainer);
+
+            var servicebusconnection = configuration["ServiceBusSettings:ConnectionString"];
+            var queue = configuration["ServiceBusSettings:QueueName"];
+
+            var client = new ServiceBusClient(servicebusconnection);
+            var sender = client.CreateSender(queue);
+            var json = JsonSerializer.Serialize(trainer);
+            var message = new ServiceBusMessage(json);
+            await sender.SendMessageAsync(message);
+
             return StatusCode(201, dto);
         }
 

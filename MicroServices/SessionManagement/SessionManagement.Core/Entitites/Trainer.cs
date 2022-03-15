@@ -6,7 +6,7 @@ namespace SessionManagement.Core.Entitites
 {
     public class Trainer : BaseEntity
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
         private Trainer()
         {
 

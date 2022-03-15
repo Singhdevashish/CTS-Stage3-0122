@@ -6,7 +6,7 @@ namespace SessionManagement.Core.Entitites
 {
     public class Cohort : BaseEntity
     {
-        public string CohortCode { get; private set; }
+        public string CohortCode { get; set; }
         private Cohort() { }
         public Cohort(long id, string cohortCode)
         {
