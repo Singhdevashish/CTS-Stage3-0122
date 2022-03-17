@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MyAcademyFrontDesk.Models.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace MyAcademyFrontDesk.Models
 {
-    public class TrainingService
+    public class TrainingService : BaseService
     {
-        private readonly HttpClient client;
         public TrainingService(IHttpClientFactory factory)
         {
             this.client = factory.CreateClient("TrainingServiceAPI");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
         }
 
         public async Task<List<CohortDTO>> GetCohorts()

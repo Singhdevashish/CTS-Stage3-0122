@@ -29,7 +29,14 @@ namespace CohortManagement.Infrastructure.Services
                 Body = emailBody
             };
             message.To.Add(new MailAddress(toEmailAddress));
-            await smtp.SendMailAsync(message);
+            try
+            {
+                await smtp.SendMailAsync(message);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

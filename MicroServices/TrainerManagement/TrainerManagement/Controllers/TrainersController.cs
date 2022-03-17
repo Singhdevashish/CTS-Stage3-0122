@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Messaging.ServiceBus;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ namespace TrainerManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Lead")]
     public class TrainersController : ControllerBase
     {
         private readonly IRepository<Trainer> trainersRepository;
@@ -27,7 +29,7 @@ namespace TrainerManagement.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type =typeof(IEnumerable<TrainerDTO>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<TrainerDTO>))]
         public async Task<IActionResult> Get()
         {
             IEnumerable<Trainer> trainers = await trainersRepository.GetAsync();
@@ -51,13 +53,13 @@ namespace TrainerManagement.Controllers
         public async Task<IActionResult> Get(int id)
         {
             Trainer trainer = await trainersRepository.GetAsync(id);
-            
+
             var DTO = mapper.Map<TrainerDTO>(trainer);
             return Ok(DTO);
         }
 
         [HttpPost]
-        [ProducesResponseType(201, Type =typeof(TrainerDTO))]
+        [ProducesResponseType(201, Type = typeof(TrainerDTO))]
         public async Task<IActionResult> Post(TrainerDTO model)
         {
             Trainer trainer = mapper.Map<Trainer>(model);
@@ -68,12 +70,15 @@ namespace TrainerManagement.Controllers
             var servicebusconnection = configuration["ServiceBusSettings:ConnectionString"];
             var queue = configuration["ServiceBusSettings:QueueName"];
 
-            var client = new ServiceBusClient(servicebusconnection);
-            var sender = client.CreateSender(queue);
-            var json = JsonSerializer.Serialize(trainer);
-            var message = new ServiceBusMessage(json);
-            await sender.SendMessageAsync(message);
-
+            try
+            {
+                var client = new ServiceBusClient(servicebusconnection);
+                var sender = client.CreateSender(queue);
+                var json = JsonSerializer.Serialize(trainer);
+                var message = new ServiceBusMessage(json);
+                await sender.SendMessageAsync(message);
+            }
+            catch { }
             return StatusCode(201, dto);
         }
 

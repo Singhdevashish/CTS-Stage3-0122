@@ -19,6 +19,8 @@ using System.Threading.Tasks;
 using MediatR;
 using CohortManagement.Core.Events;
 using CohortManagement.Core.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CohortManagement.Api
 {
@@ -48,6 +50,30 @@ namespace CohortManagement.Api
             services.AddScoped<IEmailService, EmailService>();
             services.AddMediatR(typeof(BaseEvent));
             services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+
+            string key = Configuration["JwtSettings:Key"];
+            string issuer = Configuration["JwtSettings:Issuer"];
+            string audience = Configuration["JwtSettings:Audience"];
+            int durationInMinutes = int.Parse(Configuration["JwtSettings:DurationInMinutes"]);
+
+            byte[] keyBytes = System.Text.Encoding.ASCII.GetBytes(key);
+            SecurityKey securityKey = new SymmetricSecurityKey(keyBytes);
+            services.AddAuthentication(setup =>
+            {
+                setup.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                setup.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                setup.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                setup.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                setup.DefaultForbidScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(setup => setup.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidAudience = audience,
+                ValidIssuer = issuer,
+                IssuerSigningKey = securityKey
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +90,7 @@ namespace CohortManagement.Api
             app.UseCors(policy => policy.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using MyAcademyFrontDesk.Models;
 using System;
 using System.Collections.Generic;
@@ -7,13 +9,25 @@ using System.Threading.Tasks;
 
 namespace MyAcademyFrontDesk.Controllers
 {
+    [TypeFilter(typeof(AuthFilter))]
     public class TrainersController : Controller
     {
         private readonly TrainerService trainerService;
 
-        public TrainersController(TrainerService trainerService)
-        {
+        public TrainersController(TrainerService trainerService):base()
+        {          
             this.trainerService = trainerService;
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            trainerService.SetBearerToken(HttpContext.Session.GetString("token"));
+            ViewBag.UserName = HttpContext.Session.GetString("name");
+            var Role = HttpContext.Session.GetString("role");
+            ViewBag.Role = Role;
+            if (!Role.Equals("Lead"))
+                context.Result = new RedirectToActionResult("Logout", "Users", null);
         }
 
         public async Task<IActionResult> Index()

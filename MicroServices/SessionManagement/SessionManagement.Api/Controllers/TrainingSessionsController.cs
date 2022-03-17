@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SessionManagement.Api.DTOs;
 using SessionManagement.Core.Entitites;
@@ -13,6 +14,7 @@ namespace SessionManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles ="Coach")]
     public class TrainingSessionsController : ControllerBase
     {
         private readonly ISessionService sessionService;

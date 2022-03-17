@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyAcademyFrontDesk.Models;
 using Newtonsoft.Json;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyAcademyFrontDesk.Controllers
 {
+    [TypeFilter(typeof(AuthFilter))]
     public class CohortsController : Controller
     {
         private readonly CohortService cohortService;
@@ -18,7 +21,17 @@ namespace MyAcademyFrontDesk.Controllers
         {
             this.cohortService = cohortService;
         }
-
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            cohortService.SetBearerToken(HttpContext.Session.GetString("token"));
+            ViewBag.UserName = HttpContext.Session.GetString("name");
+            ViewBag.Role = HttpContext.Session.GetString("role");
+            var Role = HttpContext.Session.GetString("role");
+            ViewBag.Role = Role;
+            if (!Role.Equals("Lead"))
+                context.Result = new RedirectToActionResult("Logout", "Users", null);
+        }
         public async Task<IActionResult> Index()
         {
             var Cohorts = await cohortService.GetCohorts();

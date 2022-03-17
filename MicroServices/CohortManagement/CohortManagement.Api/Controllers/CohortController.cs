@@ -5,6 +5,7 @@ using CohortManagement.Core;
 using CohortManagement.Core.CohortAggregate.Specifications;
 using CohortManagement.Core.Interfaces;
 using CohortManagement.Core.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace CohortManagement.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Lead")]
     public class CohortController : ControllerBase
     {
         private readonly IRepository<Cohort> cohortRepository;
@@ -66,11 +68,19 @@ namespace CohortManagement.Api.Controllers
             var servicebusconnection = configuration["ServiceBusSettings:ConnectionString"];
             var queue = configuration["ServiceBusSettings:Cohort_Q"];
 
-            var client = new ServiceBusClient(servicebusconnection);
-            var sender = client.CreateSender(queue);
-            var json = JsonSerializer.Serialize(PayLoad);
-            var message = new ServiceBusMessage(json);
-            await sender.SendMessageAsync(message);
+          
+            try
+            {
+                var client = new ServiceBusClient(servicebusconnection);
+                var sender = client.CreateSender(queue);
+                var json = JsonSerializer.Serialize(PayLoad);
+                var message = new ServiceBusMessage(json);
+                await sender.SendMessageAsync(message);
+            }
+            catch
+            {
+
+            }
 
             var dto = mapper.Map<CohortDTO>(cohort);
             return StatusCode(201, dto);

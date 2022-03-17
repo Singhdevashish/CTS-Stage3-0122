@@ -31,16 +31,20 @@ namespace SessionManagement.Api.HostedServices
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            serviceBusClient = new ServiceBusClient(configuration["ServiceBusSettings:ConnectionString"]);
-            var processorSettings = new ServiceBusProcessorOptions { MaxConcurrentCalls = 1, AutoCompleteMessages = false };
-            var Q = configuration["ServiceBusSettings:Trainer_Q"];
+            try
+            {
+                serviceBusClient = new ServiceBusClient(configuration["ServiceBusSettings:ConnectionString"]);
+                var processorSettings = new ServiceBusProcessorOptions { MaxConcurrentCalls = 1, AutoCompleteMessages = false };
+                var Q = configuration["ServiceBusSettings:Trainer_Q"];
 
-            serviceBusProcessor = serviceBusClient.CreateProcessor(Q, processorSettings);
+                serviceBusProcessor = serviceBusClient.CreateProcessor(Q, processorSettings);
 
-            logger.LogInformation("Start method executed");
-            serviceBusProcessor.ProcessMessageAsync += ServiceBusProcessor_ProcessMessageAsync;
-            serviceBusProcessor.ProcessErrorAsync += ServiceBusProcessor_ProcessErrorAsync;
-            await serviceBusProcessor.StartProcessingAsync().ConfigureAwait(false);
+                logger.LogInformation("Start method executed");
+                serviceBusProcessor.ProcessMessageAsync += ServiceBusProcessor_ProcessMessageAsync;
+                serviceBusProcessor.ProcessErrorAsync += ServiceBusProcessor_ProcessErrorAsync;
+                await serviceBusProcessor.StartProcessingAsync().ConfigureAwait(false);
+            }
+            catch { }
         }
 
         private Task ServiceBusProcessor_ProcessErrorAsync(ProcessErrorEventArgs arg)

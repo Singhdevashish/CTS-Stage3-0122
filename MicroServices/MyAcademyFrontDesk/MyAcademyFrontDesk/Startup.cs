@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,14 +29,22 @@ namespace MyAcademyFrontDesk
             var api1url = Configuration["ApiAddresses:TrainerServiceAPI"];
             var api2url = Configuration["ApiAddresses:CohortServiceAPI"];
             var api3url = Configuration["ApiAddresses:TrainingServiceAPI"];
+            var api4url = Configuration["ApiAddresses:UsersServiceAPI"];
+
             services.AddHttpClient("TrainerServiceAPI", setup => setup.BaseAddress = new Uri(api1url));
             services.AddHttpClient("CohortServiceAPI", setup => setup.BaseAddress = new Uri(api2url));
             services.AddHttpClient("TrainingServiceAPI", setup => setup.BaseAddress = new Uri(api3url));
+            services.AddHttpClient("UsersServiceAPI", setup => setup.BaseAddress = new Uri(api4url));
 
-            services.AddSingleton(typeof(TrainerService));
-            services.AddSingleton(typeof(CohortService));
-            services.AddSingleton(typeof(TrainingService));
+            services.AddScoped(typeof(TrainerService));
+            services.AddScoped(typeof(CohortService));
+            services.AddScoped(typeof(TrainingService));
+            services.AddScoped(typeof(UsersService));
+
+
+          
             services.AddSession();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +69,7 @@ namespace MyAcademyFrontDesk
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Trainers}/{action=Index}/{id?}");
+                    pattern: "{controller=Users}/{action=Login}/{id?}");
             });
         }
     }
